@@ -23,18 +23,17 @@ export function ScrollMarquee({ words, className }: Props) {
     offset: ["start end", "end start"],
   });
 
-  // Smooth the raw scroll progress for a silky feel
+  // Heavier, "weighted" spring — feels like opening/closing against resistance.
   const progress = useSpring(scrollYProgress, {
-    stiffness: 80,
-    damping: 22,
-    mass: 0.6,
+    stiffness: 32,
+    damping: 28,
+    mass: 1.6,
   });
 
-  // Band thickness grows on scroll-down, shrinks on scroll-up
-  const height = useTransform(progress, [0, 0.5, 1], [80, 140, 100]);
+  // Hold near the max until ~80% so the white next section doesn't peek early.
+  const height = useTransform(progress, [0, 0.5, 0.8, 1], [80, 180, 180, 110]);
 
   // Words travel DOWNWARD through the band as user scrolls.
-  // Start above the visible area (-60%) and end below center (+30%).
   const wordsY = useTransform(progress, [0, 1], ["-60%", "30%"]);
 
   // Duplicate the list so the marquee loops seamlessly
