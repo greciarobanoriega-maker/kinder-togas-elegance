@@ -8,10 +8,11 @@ interface Props {
 }
 
 /**
- * Gradient marquee band that:
- *  - Scrolls its words horizontally on a loop (carousel)
- *  - Grows taller as you scroll DOWN through it
+ * Full-bleed gradient marquee band that:
+ *  - Scrolls its words horizontally on a loop (carousel) at a FIXED font size
+ *  - Grows WIDER (and slightly taller) as you scroll DOWN through it
  *  - Shrinks as you scroll UP
+ *  - Uses theme tokens (primary -> primary-soft) for the gradient
  */
 export function ScrollMarquee({ words, className }: Props) {
   const ref = useRef<HTMLDivElement>(null);
@@ -20,45 +21,47 @@ export function ScrollMarquee({ words, className }: Props) {
     offset: ["start end", "end start"],
   });
 
-  // Section height grows from compact -> tall as it crosses viewport
-  const height = useTransform(scrollYProgress, [0, 0.5, 1], [120, 320, 200]);
-  const fontSize = useTransform(scrollYProgress, [0, 0.5, 1], [48, 140, 90]);
-  const skew = useTransform(scrollYProgress, [0, 0.5, 1], [-2, 0, 2]);
+  // Section grows in WIDTH (via horizontal inset) and a bit in HEIGHT
+  // 0 -> compact (with side margins), 0.5 -> full bleed + tall, 1 -> compact again
+  const sideInset = useTransform(scrollYProgress, [0, 0.5, 1], ["48px", "0px", "32px"]);
+  const height = useTransform(scrollYProgress, [0, 0.5, 1], [140, 240, 180]);
+  const radius = useTransform(scrollYProgress, [0, 0.5, 1], ["32px", "0px", "24px"]);
 
   // Duplicate the list so the marquee loops seamlessly
   const loop = [...words, ...words, ...words];
 
   return (
-    <motion.section
+    <section
       ref={ref}
-      style={{ height }}
-      className={cn(
-        "relative w-full overflow-hidden",
-        "bg-[linear-gradient(110deg,oklch(0.78_0.17_70)_0%,oklch(0.88_0.18_95)_45%,oklch(0.82_0.16_55)_100%)]",
-        className,
-      )}
+      className={cn("relative w-full", className)}
     >
       <motion.div
-        style={{ fontSize, skewY: skew }}
-        className="flex h-full items-center"
+        style={{
+          marginLeft: sideInset,
+          marginRight: sideInset,
+          height,
+          borderRadius: radius,
+        }}
+        className="relative overflow-hidden bg-[linear-gradient(110deg,var(--primary)_0%,color-mix(in_oklab,var(--primary)_70%,white)_50%,var(--primary)_100%)]"
       >
-        <motion.div
-          animate={{ x: ["0%", "-33.333%"] }}
-          transition={{ duration: 28, ease: "linear", repeat: Infinity }}
-          className="flex shrink-0 items-center whitespace-nowrap"
-        >
-          {loop.map((w, i) => (
-            <span
-              key={i}
-              className="px-8 font-semibold leading-none tracking-tight text-white"
-              style={{ fontFeatureSettings: '"ss01"' }}
-            >
-              {w}
-              <span className="mx-6 inline-block h-3 w-3 translate-y-[-0.4em] rounded-full bg-white/70 align-middle" />
-            </span>
-          ))}
-        </motion.div>
+        <div className="flex h-full items-center">
+          <motion.div
+            animate={{ x: ["0%", "-33.333%"] }}
+            transition={{ duration: 28, ease: "linear", repeat: Infinity }}
+            className="flex shrink-0 items-center whitespace-nowrap"
+          >
+            {loop.map((w, i) => (
+              <span
+                key={i}
+                className="px-8 text-5xl font-semibold leading-none tracking-tight text-primary-foreground sm:text-6xl md:text-7xl"
+              >
+                {w}
+                <span className="mx-6 inline-block h-2.5 w-2.5 translate-y-[-0.4em] rounded-full bg-primary-foreground/70 align-middle" />
+              </span>
+            ))}
+          </motion.div>
+        </div>
       </motion.div>
-    </motion.section>
+    </section>
   );
 }
