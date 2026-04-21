@@ -129,9 +129,9 @@ function HomePage() {
         </motion.div>
       </section>
 
-      {/* GRADIENT MARQUEE — grows on scroll-down, shrinks on scroll-up */}
+      {/* GRADIENT MARQUEE — flush at the header line, grows on scroll-down */}
       <ScrollMarquee
-        className="mt-16"
+        className="mt-0"
         words={[
           "Generación 2026",
           "Toga",
