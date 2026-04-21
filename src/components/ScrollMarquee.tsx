@@ -31,7 +31,7 @@ export function ScrollMarquee({ words, className }: Props) {
   });
 
   // Band thickness grows on scroll-down, shrinks on scroll-up
-  const height = useTransform(progress, [0, 0.5, 1], [80, 280, 120]);
+  const height = useTransform(progress, [0, 0.5, 1], [80, 140, 100]);
 
   // Words travel DOWNWARD through the band as user scrolls.
   // Start above the visible area (-60%) and end below center (+30%).
