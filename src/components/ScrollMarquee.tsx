@@ -23,15 +23,16 @@ export function ScrollMarquee({ words, className }: Props) {
     offset: ["start end", "end start"],
   });
 
-  // Heavier, "weighted" spring — feels like opening/closing against resistance.
+  // Very heavy, "drawer-like" spring — feels like opening/closing with weight.
   const progress = useSpring(scrollYProgress, {
-    stiffness: 32,
-    damping: 28,
-    mass: 1.6,
+    stiffness: 18,
+    damping: 32,
+    mass: 2.4,
   });
 
-  // Hold near the max until ~80% so the white next section doesn't peek early.
-  const height = useTransform(progress, [0, 0.5, 0.8, 1], [80, 180, 180, 110]);
+  // Hold the azul band tall for most of the scroll, then close like a drawer
+  // at the very end so the white section only appears in the last stretch.
+  const height = useTransform(progress, [0, 0.45, 0.92, 1], [80, 180, 180, 0]);
 
   // Words travel DOWNWARD through the band as user scrolls.
   const wordsY = useTransform(progress, [0, 1], ["-60%", "30%"]);
