@@ -21,11 +21,9 @@ export function ScrollMarquee({ words, className }: Props) {
     offset: ["start end", "end start"],
   });
 
-  // Section grows in WIDTH (via horizontal inset) and a bit in HEIGHT
-  // 0 -> compact (with side margins), 0.5 -> full bleed + tall, 1 -> compact again
-  const sideInset = useTransform(scrollYProgress, [0, 0.5, 1], ["48px", "0px", "32px"]);
-  const height = useTransform(scrollYProgress, [0, 0.5, 1], [140, 240, 180]);
-  const radius = useTransform(scrollYProgress, [0, 0.5, 1], ["32px", "0px", "24px"]);
+  // Band is ALWAYS full-bleed (edge to edge). Only the HEIGHT (thickness)
+  // changes with scroll: thinner at entry/exit, taller in the middle.
+  const height = useTransform(scrollYProgress, [0, 0.5, 1], [120, 260, 150]);
 
   // Duplicate the list so the marquee loops seamlessly
   const loop = [...words, ...words, ...words];
@@ -33,16 +31,11 @@ export function ScrollMarquee({ words, className }: Props) {
   return (
     <section
       ref={ref}
-      className={cn("relative w-full", className)}
+      className={cn("relative w-screen left-1/2 right-1/2 -translate-x-1/2", className)}
     >
       <motion.div
-        style={{
-          marginLeft: sideInset,
-          marginRight: sideInset,
-          height,
-          borderRadius: radius,
-        }}
-        className="relative overflow-hidden bg-[linear-gradient(110deg,var(--primary)_0%,color-mix(in_oklab,var(--primary)_70%,white)_50%,var(--primary)_100%)]"
+        style={{ height }}
+        className="relative w-full overflow-hidden bg-[linear-gradient(110deg,var(--primary)_0%,color-mix(in_oklab,var(--primary)_70%,white)_50%,var(--primary)_100%)]"
       >
         <div className="flex h-full items-center">
           <motion.div
