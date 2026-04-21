@@ -9,6 +9,10 @@ import { FadeInSection } from "@/components/FadeInSection";
 import { MagneticButton } from "@/components/MagneticButton";
 import { CurtainSweep } from "@/components/CurtainTransition";
 import { PageTransition } from "@/components/PageTransition";
+import { ScrollMarquee } from "@/components/ScrollMarquee";
+import { KaraokeText } from "@/components/KaraokeText";
+import { ScrollCoverImage } from "@/components/ScrollCoverImage";
+import levelSecundaria from "@/assets/level-secundaria.jpg";
 import { LEVELS, formatPrice } from "@/data/levels";
 
 export const Route = createFileRoute("/")({
@@ -123,6 +127,35 @@ function HomePage() {
           </motion.span>
         </motion.div>
       </section>
+
+      {/* GRADIENT MARQUEE — grows on scroll-down, shrinks on scroll-up */}
+      <ScrollMarquee
+        className="mt-16"
+        words={[
+          "Generación 2026",
+          "Toga",
+          "Birrete",
+          "Estola",
+          "Recuerdo para siempre",
+          "Hecho con cariño",
+        ]}
+      />
+
+      {/* KARAOKE TEXT FILL */}
+      <section className="mx-auto max-w-5xl px-6 py-32 sm:py-40">
+        <KaraokeText
+          text="Bienvenidos a Kinder Togas, donde cada generación encuentra su momento. Diseñamos togas, birretes y estolas personalizadas para que el día más esperado se quede grabado para siempre."
+          className="text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl"
+        />
+      </section>
+
+      {/* SCROLL COVER IMAGE — image grows + color cover */}
+      <ScrollCoverImage
+        src={levelSecundaria}
+        alt="Generación celebrando su graduación"
+        endTitle="Una graduación que merece ser inolvidable."
+        endSubtitle="Acompañamos a tu generación con togas impecables y una estola personalizada que el alumno se lleva a casa."
+      />
 
       <CurtainSweep className="my-24 max-w-7xl mx-auto" />
 
