@@ -12,6 +12,7 @@ import { PageTransition } from "@/components/PageTransition";
 import { ScrollMarquee } from "@/components/ScrollMarquee";
 import { KaraokeText } from "@/components/KaraokeText";
 import { ScrollCoverImage } from "@/components/ScrollCoverImage";
+import { SolidValueSection } from "@/components/SolidValueSection";
 import levelSecundaria from "@/assets/level-secundaria.jpg";
 import { LEVELS, formatPrice } from "@/data/levels";
 
@@ -149,12 +150,21 @@ function HomePage() {
         />
       </section>
 
-      {/* SCROLL COVER IMAGE — image grows + color cover */}
+      {/* SCROLL COVER IMAGE — image grows, color cover, rotating words, settles */}
       <ScrollCoverImage
         src={levelSecundaria}
         alt="Generación celebrando su graduación"
+        rotatingWords={["Tradición", "Orgullo", "Memoria", "Familia"]}
         endTitle="Una graduación que merece ser inolvidable."
         endSubtitle="Acompañamos a tu generación con togas impecables y una estola personalizada que el alumno se lleva a casa."
+      />
+
+      {/* SOLID VALUE — same cobalt, no effects, mirrors the previous end state */}
+      <SolidValueSection
+        eyebrow="Nuestro compromiso"
+        title="Pasión"
+        ctaLabel="Conoce nuestra historia"
+        ctaTo="/contacto"
       />
 
       <CurtainSweep className="my-24 max-w-7xl mx-auto" />
