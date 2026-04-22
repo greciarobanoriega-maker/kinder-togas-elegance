@@ -175,17 +175,8 @@ function StackedCard({
   );
 }
 
-function ServiceCard({
-  service,
-  index,
-  total,
-}: {
-  service: Service;
-  index: number;
-  total: number;
-}) {
+function ServiceCard({ service }: { service: Service }) {
   const { Icon } = service;
-  const isLast = index === total - 1;
 
   return (
     <article
