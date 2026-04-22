@@ -148,7 +148,8 @@ function StackedCard({
   );
 
   // Sticky offset — each card sits just a hair below the previous one.
-  const topOffset = 80 + index * CARD_GAP_PX;
+  // Pushed down further so the fixed site header doesn't cover the first card.
+  const topOffset = 140 + index * CARD_GAP_PX;
 
   return (
     <div

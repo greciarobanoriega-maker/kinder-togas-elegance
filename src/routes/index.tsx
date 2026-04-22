@@ -14,6 +14,7 @@ import { KaraokeText } from "@/components/KaraokeText";
 import { ScrollCoverImage } from "@/components/ScrollCoverImage";
 import { SolidValueSection } from "@/components/SolidValueSection";
 import { StickyStackServices } from "@/components/StickyStackServices";
+import { CurtainReveal } from "@/components/CurtainReveal";
 import {
   HorizontalScrollGallery,
   HorizontalScrollGalleryMobile,
@@ -199,6 +200,15 @@ function HomePage() {
       />
 
       <CurtainSweep className="my-24 max-w-7xl mx-auto" />
+
+      {/* CURTAIN REVEAL — two color panels slide outward to reveal a hero image */}
+      <CurtainReveal
+        eyebrow="El gran momento"
+        title="Detrás de cada toga, una historia."
+        description="Cuando se abre el telón, lo que queda es el recuerdo: la mirada, la sonrisa, la generación entera celebrando."
+        imageSrc={levelSecundaria}
+        imageAlt="Generación celebrando su graduación"
+      />
 
       {/* STICKY STACK SERVICES */}
       <StickyStackServices />
