@@ -13,8 +13,26 @@ import { ScrollMarquee } from "@/components/ScrollMarquee";
 import { KaraokeText } from "@/components/KaraokeText";
 import { ScrollCoverImage } from "@/components/ScrollCoverImage";
 import { SolidValueSection } from "@/components/SolidValueSection";
+import {
+  HorizontalScrollGallery,
+  HorizontalScrollGalleryMobile,
+} from "@/components/HorizontalScrollGallery";
 import levelSecundaria from "@/assets/level-secundaria.jpg";
+import levelPreescolar from "@/assets/level-preescolar.jpg";
+import levelPrimaria from "@/assets/level-primaria.jpg";
+import packageToga from "@/assets/package-toga.jpg";
+import packageBirrete from "@/assets/package-birrete.jpg";
+import packageEstola from "@/assets/package-estola.jpg";
 import { LEVELS, formatPrice } from "@/data/levels";
+
+const galleryItems = [
+  { src: levelPreescolar, alt: "Niños de preescolar con toga", caption: "Preescolar · primer gran paso" },
+  { src: packageToga, alt: "Toga sobre fondo claro", caption: "Toga impecable" },
+  { src: levelPrimaria, alt: "Generación de primaria graduándose", caption: "Primaria · orgullo familiar" },
+  { src: packageBirrete, alt: "Birrete con borla", caption: "Birrete con borla" },
+  { src: levelSecundaria, alt: "Graduación de secundaria", caption: "Secundaria · momento inolvidable" },
+  { src: packageEstola, alt: "Estola personalizada", caption: "Estola que se queda contigo" },
+];
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -165,6 +183,18 @@ function HomePage() {
         title="Pasión"
         ctaLabel="Conoce nuestra historia"
         ctaTo="/contacto"
+      />
+
+      {/* HORIZONTAL SCROLL GALLERY — pinned section */}
+      <HorizontalScrollGallery
+        eyebrow="Generaciones"
+        title="Cada foto, una historia."
+        items={galleryItems}
+      />
+      <HorizontalScrollGalleryMobile
+        eyebrow="Generaciones"
+        title="Cada foto, una historia."
+        items={galleryItems}
       />
 
       <CurtainSweep className="my-24 max-w-7xl mx-auto" />
