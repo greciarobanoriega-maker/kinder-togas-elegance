@@ -139,11 +139,8 @@ function StackedCard({
     [start, end],
     [1, isLast ? 1 : 0.9],
   );
-  const opacity = useTransform(
-    scrollYProgress,
-    [start, end],
-    [1, isLast ? 1 : 0.55],
-  );
+  // Keep cards fully opaque so the colors don't look washed out / transparent.
+  const opacity = useTransform(scrollYProgress, [start, end], [1, 1]);
   const y = useTransform(
     scrollYProgress,
     [start, end],
@@ -172,33 +169,18 @@ function StackedCard({
         }}
         className="will-change-transform"
       >
-        <ServiceCard service={service} index={index} total={total} />
+        <ServiceCard service={service} />
       </motion.div>
     </div>
   );
 }
 
-function ServiceCard({
-  service,
-  index,
-  total,
-}: {
-  service: Service;
-  index: number;
-  total: number;
-}) {
+function ServiceCard({ service }: { service: Service }) {
   const { Icon } = service;
-  const isLast = index === total - 1;
 
   return (
     <article
       className="relative overflow-hidden rounded-[40px] bg-card p-8 ring-1 ring-border shadow-[var(--shadow-elevated)] sm:p-12 md:p-16"
-      style={{
-        // Slight tonal shift so stacked edges read as separate layers.
-        backgroundColor: isLast
-          ? undefined
-          : `color-mix(in oklab, var(--card) ${100 - index * 2}%, var(--foreground) ${index * 2}%)`,
-      }}
     >
       {/* Soft gradient accent */}
       <div
