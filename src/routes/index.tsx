@@ -13,6 +13,7 @@ import { ScrollMarquee } from "@/components/ScrollMarquee";
 import { KaraokeText } from "@/components/KaraokeText";
 import { ScrollCoverImage } from "@/components/ScrollCoverImage";
 import { SolidValueSection } from "@/components/SolidValueSection";
+import { StickyStackServices } from "@/components/StickyStackServices";
 import {
   HorizontalScrollGallery,
   HorizontalScrollGalleryMobile,
@@ -198,6 +199,9 @@ function HomePage() {
       />
 
       <CurtainSweep className="my-24 max-w-7xl mx-auto" />
+
+      {/* STICKY STACK SERVICES */}
+      <StickyStackServices />
 
       {/* LEVELS PREVIEW */}
       <FadeInSection className="mx-auto max-w-7xl px-6">
