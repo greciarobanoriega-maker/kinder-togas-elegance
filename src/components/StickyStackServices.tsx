@@ -169,7 +169,7 @@ function StackedCard({
         }}
         className="will-change-transform"
       >
-        <ServiceCard service={service} index={index} total={total} />
+        <ServiceCard service={service} />
       </motion.div>
     </div>
   );
