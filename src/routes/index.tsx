@@ -218,6 +218,30 @@ function HomePage() {
       {/* STICKY STACK SERVICES */}
       <StickyStackServices />
 
+      {/* REVERSE SCROLL GALLERY — outer columns drift down, center drifts up */}
+      <ReverseScrollGallery
+        eyebrow="Momentos"
+        title="Pequeños detalles, grandes recuerdos."
+        description="Una galería que respira: las columnas se desplazan en direcciones opuestas mientras descubres cada pieza."
+        columns={[
+          [
+            { src: levelPreescolar, alt: "Niños de preescolar con toga" },
+            { src: packageBirrete, alt: "Birrete con borla" },
+            { src: stoleLapiz, alt: "Estola con bordado de lápiz" },
+          ],
+          [
+            { src: packageToga, alt: "Toga sobre fondo claro" },
+            { src: levelPrimaria, alt: "Generación de primaria graduándose" },
+            { src: stoleMulticolor, alt: "Estola multicolor personalizada" },
+          ],
+          [
+            { src: stoleCrayola, alt: "Estola con bordado de crayola" },
+            { src: packageEstola, alt: "Estola personalizada" },
+            { src: accMedallas, alt: "Medallas de graduación" },
+          ],
+        ]}
+      />
+
       {/* LEVELS PREVIEW */}
       <FadeInSection className="mx-auto max-w-7xl px-6">
         <div className="mb-14 flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
