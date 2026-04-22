@@ -37,10 +37,11 @@ export function ScrollCoverImage({
   });
 
   // Image: starts inset+rounded -> goes full bleed -> settles back inset+rounded
+  // Final inset matches SolidValueSection (max-w-[calc(100%-4rem)] => 32px each side)
   const inset = useTransform(
     scrollYProgress,
     [0, 0.45, 0.85, 1],
-    ["56px", "0px", "0px", "72px"],
+    ["40px", "0px", "0px", "36px"],
   );
   const radius = useTransform(
     scrollYProgress,

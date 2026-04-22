@@ -25,7 +25,7 @@ export function SolidValueSection({
   return (
     <section
       className={cn(
-        "relative mx-auto my-10 w-full max-w-[calc(100%-4rem)] overflow-hidden rounded-[40px] bg-primary px-8 py-24 text-primary-foreground sm:px-16 sm:py-32 md:py-40",
+        "relative mx-auto mt-2 mb-10 w-full max-w-[calc(100%-4rem)] overflow-hidden rounded-[40px] bg-primary px-8 py-24 text-primary-foreground sm:px-16 sm:py-32 md:py-40",
         className,
       )}
     >
