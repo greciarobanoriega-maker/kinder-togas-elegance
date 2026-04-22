@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Shirt, Gift, Sparkles, ArrowRight, type LucideIcon } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 
@@ -21,7 +21,11 @@ const SERVICES: Service[] = [
     title: "Renta de Togas",
     description:
       "Togas impecables, perfectamente entalladas y listas para el gran día. Cuidamos cada talla y cada detalle.",
-    bullets: ["Tallas para preescolar, primaria y secundaria", "Entrega y recolección coordinadas", "Tela premium, planchada"],
+    bullets: [
+      "Tallas para preescolar, primaria y secundaria",
+      "Entrega y recolección coordinadas",
+      "Tela premium, planchada",
+    ],
     Icon: Shirt,
     to: "/niveles",
     ctaLabel: "Ver niveles",
@@ -31,7 +35,11 @@ const SERVICES: Service[] = [
     title: "Paquetes de Graduación",
     description:
       "Toga, birrete y estola personalizada en un solo paquete. La estola es de regalo: el alumno se la lleva a casa para siempre.",
-    bullets: ["Toga rentada de alta calidad", "Birrete con borla incluido", "Estola personalizada de regalo"],
+    bullets: [
+      "Toga rentada de alta calidad",
+      "Birrete con borla incluido",
+      "Estola personalizada de regalo",
+    ],
     Icon: Gift,
     to: "/paquete",
     ctaLabel: "Ver el paquete",
@@ -41,19 +49,33 @@ const SERVICES: Service[] = [
     title: "Accesorios",
     description:
       "Detalles que completan el recuerdo: estolas bordadas, borlas, listones y complementos para que cada generación brille.",
-    bullets: ["Estolas bordadas a medida", "Borlas y listones por color", "Personalización por generación"],
+    bullets: [
+      "Estolas bordadas a medida",
+      "Borlas y listones por color",
+      "Personalización por generación",
+    ],
     Icon: Sparkles,
     to: "/accesorios",
     ctaLabel: "Ver accesorios",
   },
 ];
 
+// Vertical pixel offset between stacked cards (very tight, like the reference image).
+const CARD_GAP_PX = 14;
+// Distance the user has to scroll *per card* to advance one full transition.
+const PER_CARD_VH = 85;
+
 export function StickyStackServices() {
   const sectionRef = useRef<HTMLDivElement>(null);
 
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end end"],
+  });
+
   return (
-    <section ref={sectionRef} className="relative mx-auto max-w-7xl px-6 py-32 sm:py-40">
-      <div className="mx-auto mb-20 max-w-3xl text-center">
+    <section className="relative mx-auto max-w-7xl px-6 pt-32 sm:pt-40">
+      <div className="mx-auto mb-16 max-w-3xl text-center">
         <p className="text-xs font-medium uppercase tracking-[0.25em] text-primary">
           Nuestros servicios
         </p>
@@ -68,14 +90,21 @@ export function StickyStackServices() {
         </p>
       </div>
 
-      {/* Sticky stack track */}
-      <div className="relative">
+      {/* Pinned scroll track — total height drives how long the stack takes. */}
+      <div
+        ref={sectionRef}
+        className="relative"
+        style={{
+          height: `${SERVICES.length * PER_CARD_VH + 40}vh`,
+        }}
+      >
         {SERVICES.map((service, index) => (
-          <StickyCard
+          <StackedCard
             key={service.number}
             service={service}
             index={index}
             total={SERVICES.length}
+            scrollYProgress={scrollYProgress}
           />
         ))}
       </div>
@@ -83,52 +112,67 @@ export function StickyStackServices() {
   );
 }
 
-function StickyCard({
+function StackedCard({
   service,
   index,
   total,
+  scrollYProgress,
 }: {
   service: Service;
   index: number;
   total: number;
+  scrollYProgress: ReturnType<typeof useScroll>["scrollYProgress"];
 }) {
-  const cardRef = useRef<HTMLDivElement>(null);
+  // Each card owns a slice of overall progress.
+  // Card i is "active" between i/total and (i+1)/total.
+  const start = index / total;
+  const end = (index + 1) / total;
 
-  // Track this card's progress as it scrolls past the sticky position.
-  const { scrollYProgress } = useScroll({
-    target: cardRef,
-    offset: ["start center", "end start"],
-  });
-
-  // Each card scales down and dims slightly as the next card covers it.
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.92]);
-  const opacity = useTransform(scrollYProgress, [0, 1], [1, 0.55]);
-  const y = useTransform(scrollYProgress, [0, 1], [0, -20]);
-
-  // Stack offset — each card sits a bit further down than the previous one.
-  const topOffset = 96 + index * 16; // px
+  // While THIS card's slice is in progress, the NEXT card slides up over it.
+  // So this card scales down + dims + lifts slightly during its own slice
+  // (which is exactly when the next card is covering it).
+  // The last card never gets covered, so it stays at rest.
   const isLast = index === total - 1;
+
+  const scale = useTransform(
+    scrollYProgress,
+    [start, end],
+    [1, isLast ? 1 : 0.9],
+  );
+  const opacity = useTransform(
+    scrollYProgress,
+    [start, end],
+    [1, isLast ? 1 : 0.55],
+  );
+  const y = useTransform(
+    scrollYProgress,
+    [start, end],
+    [0, isLast ? 0 : -24],
+  );
+
+  // Sticky offset — each card sits just a hair below the previous one.
+  const topOffset = 80 + index * CARD_GAP_PX;
 
   return (
     <div
-      ref={cardRef}
-      className="relative"
+      className="sticky"
       style={{
-        // Add bottom spacing so the user has scroll distance per card.
-        marginBottom: isLast ? 0 : "20vh",
+        top: `${topOffset}px`,
+        // Each card occupies one slice of the track height.
+        height: `${100 / total}%`,
+        zIndex: index + 1,
       }}
     >
       <motion.div
         style={{
-          position: "sticky",
-          top: `${topOffset}px`,
           scale,
           opacity,
           y,
-          zIndex: index + 1,
+          transformOrigin: "center top",
         }}
+        className="will-change-transform"
       >
-        <ServiceCard service={service} index={index} progress={scrollYProgress} />
+        <ServiceCard service={service} index={index} total={total} />
       </motion.div>
     </div>
   );
@@ -137,21 +181,24 @@ function StickyCard({
 function ServiceCard({
   service,
   index,
-  progress,
+  total,
 }: {
   service: Service;
   index: number;
-  progress: MotionValue<number>;
+  total: number;
 }) {
-  // Subtle entrance lift when the card first arrives at the sticky position.
-  const lift = useTransform(progress, [0, 0.05], [16, 0]);
-  const enterOpacity = useTransform(progress, [0, 0.05], [0.85, 1]);
   const { Icon } = service;
+  const isLast = index === total - 1;
 
   return (
-    <motion.article
-      style={{ y: lift, opacity: enterOpacity }}
-      className="group relative overflow-hidden rounded-[40px] bg-card p-8 ring-1 ring-border shadow-[var(--shadow-soft)] sm:p-12 md:p-16"
+    <article
+      className="relative overflow-hidden rounded-[40px] bg-card p-8 ring-1 ring-border shadow-[var(--shadow-elevated)] sm:p-12 md:p-16"
+      style={{
+        // Slight tonal shift so stacked edges read as separate layers.
+        backgroundColor: isLast
+          ? undefined
+          : `color-mix(in oklab, var(--card) ${100 - index * 2}%, var(--foreground) ${index * 2}%)`,
+      }}
     >
       {/* Soft gradient accent */}
       <div
@@ -211,7 +258,7 @@ function ServiceCard({
           </span>
         </div>
       </div>
-    </motion.article>
+    </article>
   );
 }
 
