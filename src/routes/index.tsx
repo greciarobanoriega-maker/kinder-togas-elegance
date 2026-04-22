@@ -19,12 +19,17 @@ import {
   HorizontalScrollGallery,
   HorizontalScrollGalleryMobile,
 } from "@/components/HorizontalScrollGallery";
+import { ReverseScrollGallery } from "@/components/ReverseScrollGallery";
 import levelSecundaria from "@/assets/level-secundaria.jpg";
 import levelPreescolar from "@/assets/level-preescolar.jpg";
 import levelPrimaria from "@/assets/level-primaria.jpg";
 import packageToga from "@/assets/package-toga.jpg";
 import packageBirrete from "@/assets/package-birrete.jpg";
 import packageEstola from "@/assets/package-estola.jpg";
+import stoleCrayola from "@/assets/stole-crayola.jpg";
+import stoleLapiz from "@/assets/stole-lapiz.jpg";
+import stoleMulticolor from "@/assets/stole-multicolor.jpg";
+import accMedallas from "@/assets/acc-medallas.jpg";
 import { LEVELS, formatPrice } from "@/data/levels";
 
 const galleryItems = [

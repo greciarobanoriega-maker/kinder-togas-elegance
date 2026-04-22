@@ -52,8 +52,8 @@ export function ReverseScrollGallery({
   const yRight = useTransform(scrollYProgress, [0, 1], ["-4%", "18%"]);
 
   const columnTransforms = [yLeft, yCenter, yRight] as const;
-  // Initial vertical offsets so columns aren't aligned at the top.
-  const initialOffsets = ["mt-0", "mt-24", "mt-12"] as const;
+  // Initial vertical offsets so columns aren't aligned at the top (md+ only).
+  const initialOffsets = ["md:mt-0", "md:mt-24", "md:mt-12"] as const;
 
   return (
     <section
@@ -85,13 +85,8 @@ export function ReverseScrollGallery({
             key={colIndex}
             style={{ y: columnTransforms[colIndex] }}
             className={cn(
-              "flex flex-col gap-8 sm:gap-10 md:gap-14 will-change-transform",
-              // Only apply the staggered initial offsets on md+ so the mobile
-              // single column stays clean.
-              "md:" + initialOffsets[colIndex],
-              colIndex === 0 && "md:mt-0",
-              colIndex === 1 && "md:mt-24",
-              colIndex === 2 && "md:mt-12",
+              "flex flex-col gap-8 will-change-transform sm:gap-10 md:gap-14",
+              initialOffsets[colIndex],
             )}
           >
             {items.map((item, i) => (
