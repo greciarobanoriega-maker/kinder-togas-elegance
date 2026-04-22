@@ -139,11 +139,8 @@ function StackedCard({
     [start, end],
     [1, isLast ? 1 : 0.9],
   );
-  const opacity = useTransform(
-    scrollYProgress,
-    [start, end],
-    [1, isLast ? 1 : 0.55],
-  );
+  // Keep cards fully opaque so the colors don't look washed out / transparent.
+  const opacity = useTransform(scrollYProgress, [start, end], [1, 1]);
   const y = useTransform(
     scrollYProgress,
     [start, end],
