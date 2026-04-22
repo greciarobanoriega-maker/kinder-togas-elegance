@@ -190,12 +190,6 @@ function ServiceCard({
   return (
     <article
       className="relative overflow-hidden rounded-[40px] bg-card p-8 ring-1 ring-border shadow-[var(--shadow-elevated)] sm:p-12 md:p-16"
-      style={{
-        // Slight tonal shift so stacked edges read as separate layers.
-        backgroundColor: isLast
-          ? undefined
-          : `color-mix(in oklab, var(--card) ${100 - index * 2}%, var(--foreground) ${index * 2}%)`,
-      }}
     >
       {/* Soft gradient accent */}
       <div
