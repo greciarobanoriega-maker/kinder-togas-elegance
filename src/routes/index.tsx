@@ -19,12 +19,17 @@ import {
   HorizontalScrollGallery,
   HorizontalScrollGalleryMobile,
 } from "@/components/HorizontalScrollGallery";
+import { ReverseScrollGallery } from "@/components/ReverseScrollGallery";
 import levelSecundaria from "@/assets/level-secundaria.jpg";
 import levelPreescolar from "@/assets/level-preescolar.jpg";
 import levelPrimaria from "@/assets/level-primaria.jpg";
 import packageToga from "@/assets/package-toga.jpg";
 import packageBirrete from "@/assets/package-birrete.jpg";
 import packageEstola from "@/assets/package-estola.jpg";
+import stoleCrayola from "@/assets/stole-crayola.jpg";
+import stoleLapiz from "@/assets/stole-lapiz.jpg";
+import stoleMulticolor from "@/assets/stole-multicolor.jpg";
+import accMedallas from "@/assets/acc-medallas.jpg";
 import { LEVELS, formatPrice } from "@/data/levels";
 
 const galleryItems = [
@@ -212,6 +217,30 @@ function HomePage() {
 
       {/* STICKY STACK SERVICES */}
       <StickyStackServices />
+
+      {/* REVERSE SCROLL GALLERY — outer columns drift down, center drifts up */}
+      <ReverseScrollGallery
+        eyebrow="Momentos"
+        title="Pequeños detalles, grandes recuerdos."
+        description="Una galería que respira: las columnas se desplazan en direcciones opuestas mientras descubres cada pieza."
+        columns={[
+          [
+            { src: levelPreescolar, alt: "Niños de preescolar con toga" },
+            { src: packageBirrete, alt: "Birrete con borla" },
+            { src: stoleLapiz, alt: "Estola con bordado de lápiz" },
+          ],
+          [
+            { src: packageToga, alt: "Toga sobre fondo claro" },
+            { src: levelPrimaria, alt: "Generación de primaria graduándose" },
+            { src: stoleMulticolor, alt: "Estola multicolor personalizada" },
+          ],
+          [
+            { src: stoleCrayola, alt: "Estola con bordado de crayola" },
+            { src: packageEstola, alt: "Estola personalizada" },
+            { src: accMedallas, alt: "Medallas de graduación" },
+          ],
+        ]}
+      />
 
       {/* LEVELS PREVIEW */}
       <FadeInSection className="mx-auto max-w-7xl px-6">
